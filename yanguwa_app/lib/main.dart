@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yanguwa_app/authentication_screen.dart';
+import 'package:get/get.dart';
+import 'package:yanguwa_app/authentication/authentication_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -8,7 +9,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 14, 122, 194))
           .copyWith(error: Colors.redAccent),
