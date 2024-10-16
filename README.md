@@ -10,5 +10,7 @@
 1. In the Laravel Application Directory:
    ```bash
    cd backend-laravel
+   cp .env.example .env
+Then setup your database, and then run
    composer install
 
