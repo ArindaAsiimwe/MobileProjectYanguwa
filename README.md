@@ -11,6 +11,7 @@
    ```bash
    cd backend-laravel
    cp .env.example .env
-Then setup your database, and then run
+1. Then setup your database, and then run
+   ```bash
    composer install
 
