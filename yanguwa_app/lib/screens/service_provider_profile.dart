@@ -11,25 +11,7 @@ class ServiceProviderProfile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
 
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text(
-              //         'Service Provider Page',
-              //         style: TextStyle(
-              //           color: Color(0xFF1C1B1F),
-              //           fontSize: 32,
-              //           fontWeight: FontWeight.w600,
-              //         ),
-              //       ),
-              //       const SizedBox(height: 16),
-              //
-              //     ],
-              //   ),
-              // ),
-              // Image holder at the top of the screen
+
               Container(
                 height: 200, // Set the height of the image holder
                 width: double.infinity,
