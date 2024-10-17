@@ -31,6 +31,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: 50),
+                  if (register == true)
                   AuthenticationTextFormField(
                     key: const Key('name'),
                     icon: Icons.vpn_key,
