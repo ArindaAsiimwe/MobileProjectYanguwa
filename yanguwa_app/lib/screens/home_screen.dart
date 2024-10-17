@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yanguwa_app/screens/service_provider_profile.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -78,6 +79,7 @@ class HomeScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 children: [
+
                   _buildServiceCard('House Cleaning', 'Fast & Reliable', Icons.cleaning_services),
                   _buildServiceCard('Childcare', 'Safe & Trustworthy', Icons.child_care),
                   _buildServiceCard('Errand Running', 'Quick Assistance', Icons.local_shipping),
@@ -111,7 +113,16 @@ class HomeScreen extends StatelessWidget {
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
                 children: [
-                  _buildCategoryCard('House Cleaning', Icons.cleaning_services),
+                  //_buildCategoryCard('House Cleaning', Icons.cleaning_services),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ServiceProviderProfile()),
+                      );
+                    },
+                    child: _buildCategoryCard('House Cleaning', Icons.cleaning_services),
+                  ),
                   _buildCategoryCard('Childcare', Icons.child_care),
                   _buildCategoryCard('Errand Running', Icons.local_shipping),
                   _buildCategoryCard('Pet Care', Icons.pets),
@@ -207,20 +218,21 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Function to build a navigation item
-  Widget _buildNavItem(IconData icon, String label, bool isActive) {
-    return Column(
-      children: [
-        Icon(icon, color: isActive ? Color(0xFF1C1B1F) : Color(0xFFA09CAB)),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            color: isActive ? Color(0xFF1C1B1F) : Color(0xFFA09CAB),
-            fontSize: 12,
-          ),
+}
+
+// Function to build a navigation item
+Widget _buildNavItem(IconData icon, String label, bool isActive) {
+  return Column(
+    children: [
+      Icon(icon, color: isActive ? Color(0xFF1C1B1F) : Color(0xFFA09CAB)),
+      const SizedBox(height: 4),
+      Text(
+        label,
+        style: TextStyle(
+          color: isActive ? Color(0xFF1C1B1F) : Color(0xFFA09CAB),
+          fontSize: 12,
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
 }
