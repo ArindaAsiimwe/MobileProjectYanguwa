@@ -1,5 +1,6 @@
 import 'package:yanguwa_app/authentication/service/auth_service.dart';
-import 'package:yanguwa_app/home_view.dart';
+// import 'package:yanguwa_app/home_view.dart';
+import 'package:yanguwa_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,7 +34,7 @@ class AuthenticationController extends GetxController {
         colorText: Colors.white,
       );
 
-      Get.offAll(() => const HomeView());
+      Get.offAll(() => const HomeScreen());
     } catch (e) {
       print(e.toString());
     } finally {
@@ -53,7 +54,7 @@ class AuthenticationController extends GetxController {
         password: password,
       );
 
-      Get.offAll(() => const HomeView());
+      Get.offAll(() => const HomeScreen());
     } catch (e) {
       print(e.toString());
     } finally {
