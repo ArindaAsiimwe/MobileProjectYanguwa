@@ -70,7 +70,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
                       onPressed: () async {
-                        await _authenticate(); // Ensure _authenticate is asynchronous if it returns a Future.
+                        await _authenticate();
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const HomeScreen()),
