@@ -3,6 +3,7 @@ import 'package:yanguwa_app/authentication/authentication_text_form_field.dart';
 import 'package:yanguwa_app/wave.dart';
 import 'package:yanguwa_app/authentication/controller/auth_controller.dart';
 import 'package:get/get.dart';
+import 'package:yanguwa_app/screens/home_screen.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({super.key});
@@ -68,7 +69,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       minimumSize: const Size.fromHeight(50),
                       backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
-                    onPressed: _authenticate,
+                      onPressed: () async {
+                        await _authenticate();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const HomeScreen()),
+                        );
+                      },
                     child: Text(
                       register == true ? 'Create Account' : 'Login',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
