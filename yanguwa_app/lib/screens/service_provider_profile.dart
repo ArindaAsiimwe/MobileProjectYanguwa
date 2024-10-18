@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 class ServiceProviderProfile extends StatelessWidget {
   const ServiceProviderProfile({super.key});
@@ -159,7 +161,7 @@ Widget _StartandEndDates(Text start, Text end) {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text("Start", style: TextStyle(fontWeight: FontWeight.w300)),
+            Text("Start", style: TextStyle(fontWeight: FontWeight.w500)),
             Text(
               start.data ?? '', // Safely access the text from the 'end' widget
               style: TextStyle(
@@ -176,7 +178,7 @@ Widget _StartandEndDates(Text start, Text end) {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("End", style: TextStyle(fontWeight: FontWeight.w300)),
+            Text("End", style: TextStyle(fontWeight: FontWeight.w500),),
             Text(
               end.data ?? '', // Safely access the text from the 'end' widget
               style: TextStyle(
@@ -203,19 +205,26 @@ Widget _bookAction() {
       width: double.infinity, // Ensures the button fits the available width minus the padding
       child: ElevatedButton(
         onPressed: () {
-          // Add your button's onPressed logic here
+          Fluttertoast.showToast(msg: "Book button pressed",
+            toastLength: Toast.LENGTH_SHORT,
+            textColor: Colors.blueAccent,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.blueGrey,
+            fontSize: 19,
+          );
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.black,
-          padding: EdgeInsets.symmetric(vertical: 12), // Vertical padding for button height
+          padding: EdgeInsets.symmetric(vertical: 15), // Vertical padding for button height
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8), // Rounded corners
           ),
         ),
         child: const Text(
-          'Book Now', // Text inside the button
+          'Book Now',
           style: TextStyle(
-            color: Colors.white, // Text color (white)
+            color: Colors.white,
             fontSize: 16, // Font size
             fontWeight: FontWeight.bold, // Font weight
           ),
