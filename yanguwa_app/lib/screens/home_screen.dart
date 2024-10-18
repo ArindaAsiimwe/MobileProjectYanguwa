@@ -113,16 +113,16 @@ class HomeScreen extends StatelessWidget {
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
                 children: [
-                  //_buildCategoryCard('House Cleaning', Icons.cleaning_services),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const ServiceProviderProfile()),
-                      );
-                    },
-                    child: _buildCategoryCard('House Cleaning', Icons.cleaning_services),
-                  ),
+                  _buildCategoryCard('House Cleaning', Icons.cleaning_services),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(builder: (context) => const ServiceProviderProfile()),
+                  //     );
+                  //   },
+                  //   child: _buildCategoryCard('House Cleaning', Icons.cleaning_services),
+                  // ),
                   _buildCategoryCard('Childcare', Icons.child_care),
                   _buildCategoryCard('Errand Running', Icons.local_shipping),
                   _buildCategoryCard('Pet Care', Icons.pets),
