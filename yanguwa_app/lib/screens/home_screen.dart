@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Yanguwa',
                     style: TextStyle(
                       color: Color(0xFF1C1B1F),
@@ -29,13 +29,13 @@ class HomeScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
-                      color: Color(0xFFEFF1F5),
+                      color: const Color(0xFFEFF1F5),
                       borderRadius: BorderRadius.circular(32),
                     ),
-                    child: Row(
+                    child: const Row(
                       children: [
                         Icon(Icons.search, color: Color(0xFFA09CAB)),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         Expanded(
                           child: TextField(
                             decoration: InputDecoration(
@@ -59,8 +59,8 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Featured Services Section (Horizontal Slider)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'Featured Services',
                 style: TextStyle(
@@ -91,8 +91,8 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Categories Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'Categories',
                 style: TextStyle(
@@ -135,7 +135,7 @@ class HomeScreen extends StatelessWidget {
             // Bottom Navigation Bar
             Container(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(color: Colors.white),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -158,7 +158,7 @@ class HomeScreen extends StatelessWidget {
       width: 140, // Reduced width for horizontal scrolling items
       margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
-        color: Color(0xFFEFF1F5), // Updated color for featured services
+        color: const Color(0xFFEFF1F5), // Updated color for featured services
         borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.all(16),
@@ -166,12 +166,12 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Icon(icon, size: 36, color: Color(0xFFA09CAB)), // Reduced icon size for service
+            child: Icon(icon, size: 36, color: const Color(0xFFA09CAB)), // Reduced icon size for service
           ),
           const SizedBox(height: 8),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xFF1C1B1F),
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -180,7 +180,7 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             subtitle,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xFFA09CAB),
               fontSize: 14,
             ),
@@ -194,7 +194,7 @@ class HomeScreen extends StatelessWidget {
   Widget _buildCategoryCard(String title, IconData icon) {
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xFFEFF1F5), // Updated color for category cards
+        color: const Color(0xFFEFF1F5), // Updated color for category cards
         borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.all(16),
@@ -202,12 +202,12 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Icon(icon, size: 36, color: Color(0xFFA09CAB)), // Reduced icon size for category
+            child: Icon(icon, size: 36, color: const Color(0xFFA09CAB)), // Reduced icon size for category
           ),
           const SizedBox(height: 8),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xFF1C1B1F),
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -217,8 +217,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-}
 
 // Function to build a navigation item
 Widget _buildNavItem(IconData icon, String label, bool isActive) {
