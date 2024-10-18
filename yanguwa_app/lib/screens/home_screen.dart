@@ -234,3 +234,4 @@ Widget _buildNavItem(IconData icon, String label, bool isActive) {
     ],
   );
 }
+}
