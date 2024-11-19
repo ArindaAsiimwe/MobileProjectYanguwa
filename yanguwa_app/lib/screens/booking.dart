@@ -1,126 +1,126 @@
 import 'package:flutter/material.dart';
+import 'package:yanguwa_app/screens/home_screen.dart';
+import 'package:yanguwa_app/screens/services.dart';
+import 'package:yanguwa_app/screens/profile.dart';
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({super.key});
 
   @override
-  State<BookingScreen> createState() => _BookingScreenState();
+  _BookingScreenState createState() => _BookingScreenState();
 }
 
 class _BookingScreenState extends State<BookingScreen> {
-  int _selectedIndex = 2; // Booking index
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    // Add navigation functionality if needed here
-    // For example, navigate to different screens based on index.
-  }
+  String _selectedPaymentMethod = 'Credit Card';
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Booking",
+          style: TextStyle(
+            fontSize: 24,
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.keyboard_arrow_left, color: Colors.white),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          },
+        ),
+        backgroundColor: const Color(0xFF1A237E),
+      ),
       body: SafeArea(
-        child: SingleChildScrollView( // Make the screen scrollable
+        child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: screenWidth * 0.04,  // 4% of screen width for horizontal padding
-              vertical: screenHeight * 0.01,  // 1% of screen height for vertical padding
-            ),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Booking Summary",
                   style: TextStyle(
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    fontSize: screenWidth * 0.06,
+                    color: Color(0xFF1A237E),
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.03),
-                Text("Service Provider: Provider Name",
-                    style: TextStyle(fontSize: screenWidth * 0.045)),
-                SizedBox(height: screenHeight * 0.025),
-                Text("Category: House Cleaning",
-                    style: TextStyle(fontSize: screenWidth * 0.045)),
-                SizedBox(height: screenHeight * 0.025),
-                Text("Date & Time: March 15, 3:00 PM",
-                    style: TextStyle(fontSize: screenWidth * 0.045)),
-                SizedBox(height: screenHeight * 0.04),
-
-                Text(
+                const SizedBox(height: 16),
+                _buildInfoRow("Service Provider:", "Provider Name"),
+                _buildInfoRow("Category:", "House Cleaning"),
+                _buildInfoRow("Date & Time:", "March 15, 3:00 PM"),
+                const SizedBox(height: 16),
+                const Text(
                   "Select Date & Time",
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: screenWidth * 0.05,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF1A237E),
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.015),
+                const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Start: Tue, Oct 24",
-                        style: TextStyle(fontSize: screenWidth * 0.045)),
-                    Text("End: Wed, Oct 25",
-                        style: TextStyle(fontSize: screenWidth * 0.045)),
+                    _buildDateTimePicker(context, "Start: Tue, Oct 24"),
+                    _buildDateTimePicker(context, "End: Wed, Oct 25"),
                   ],
                 ),
-                SizedBox(height: screenHeight * 0.03),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildDateTimePicker(context, "Select Time"),
-                  ],
-                ),
-                SizedBox(height: screenHeight * 0.04),
-
-                Text(
+                const SizedBox(height: 16),
+                const Text(
                   "Payment Method",
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: screenWidth * 0.05,  // Increased font size
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF1A237E),
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.015),
-                _buildDropdown("Select Payment Method"),
-                SizedBox(height: screenHeight * 0.04),  // Increased spacing
-
-                Text(
+                const SizedBox(height: 16),
+                _buildDropdown(context),
+                const SizedBox(height: 16),
+                const Text(
                   "Total Cost",
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: screenWidth * 0.05,  // Increased font size
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF1A237E),
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.015),
-                Text("Service Cost: \$30",
-                    style: TextStyle(fontSize: screenWidth * 0.045)),
-                SizedBox(height: screenHeight * 0.015),
-                Text("Taxes: \$5",
-                    style: TextStyle(fontSize: screenWidth * 0.045)),
-                SizedBox(height: screenHeight * 0.015),
-                Text("Total: \$35",
-                    style: TextStyle(fontSize: screenWidth * 0.045)),
-                SizedBox(height: screenHeight * 0.04),
-
-                // Full-width Confirm Booking Button
-                ElevatedButton(
-                  onPressed: () {
-                    // Add confirm action here
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, screenHeight * 0.07),
-                    backgroundColor: Colors.black,
-                  ),
-                  child: Text(
-                    "Confirm Booking",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: screenWidth * 0.05,
+                const SizedBox(height: 16),
+                _buildInfoRow("Service Cost:", "\$30"),
+                _buildInfoRow("Taxes:", "\$5"),
+                _buildInfoRow("Total:", "\$35"),
+                const SizedBox(height: 16),
+                Center(
+                  child: SizedBox(
+                    width: double
+                        .infinity, // This will make the button take the full width of its parent
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Add confirm action here
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1A237E),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 32, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        "Confirm Booking",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -130,43 +130,77 @@ class _BookingScreenState extends State<BookingScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(
-          vertical: screenHeight * 0.015,
-        ),
-        decoration: const BoxDecoration(color: Colors.white),
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: const BoxDecoration(color: Color(0xFF1A237E)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildNavItem(Icons.home, 'Home', 0),
-            _buildNavItem(Icons.work, 'Services', 1),
-            _buildNavItem(Icons.book, 'Bookings', 2),
-            _buildNavItem(Icons.person, 'Profile', 3),
+            _buildNavItem(context, Icons.home, 'Home', false, HomeScreen()),
+            _buildNavItem(context, Icons.work, 'Services', false, Services()),
+            _buildNavItem(
+                context, Icons.book, 'Bookings', true, BookingScreen()),
+            _buildNavItem(
+                context, Icons.person, 'Profile', false, ProfileScreen()),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, int index) {
-    return GestureDetector(
-      onTap: () => _onItemTapped(index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+  Widget _buildDropdown(BuildContext context) {
+    return DropdownButtonFormField<String>(
+      value: _selectedPaymentMethod,
+      onChanged: (String? newValue) {
+        setState(() {
+          _selectedPaymentMethod = newValue!;
+        });
+      },
+      items: <String>['Credit Card', 'Mobile Money']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      decoration: InputDecoration(
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        filled: true,
+        fillColor: const Color(0xFFEFF1F5),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
+        ),
+      ),
+      style: const TextStyle(
+        color: Color(0xFF1A237E),
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
+      dropdownColor: Colors.white,
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(
-            icon,
-            color: _selectedIndex == index
-                ? const Color(0xFF1C1B1F)
-                : const Color(0xFFA09CAB),
-          ),
-          const SizedBox(height: 4),
           Text(
             label,
-            style: TextStyle(
-              color: _selectedIndex == index
-                  ? const Color(0xFF1C1B1F)
-                  : const Color(0xFFA09CAB),
-              fontSize: 12,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF1A237E),
+            ),
+          ),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF1A237E),
             ),
           ),
         ],
@@ -175,66 +209,32 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   Widget _buildDateTimePicker(BuildContext context, String label) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          // Implement time picker functionality here
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            vertical: MediaQuery.of(context).size.height * 0.02,
-            horizontal: MediaQuery.of(context).size.width * 0.03,
-          ),
-          decoration: BoxDecoration(
-            color: const Color(0xFFEFF1F5),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: const Color(0xFFA09CAB),
-              fontSize: MediaQuery.of(context).size.width * 0.045,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ),
-      ),
-    );
+    // Implement your date time picker here
+    return Text(label);
   }
 
-  Widget _buildDropdown(String label) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width * 0.03,
-      ),
-      decoration: BoxDecoration(
-        color: const Color(0xFFEFF1F5),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: null,
-          onChanged: (newValue) {
-            // Handle selection
-          },
-          items: const [
-            DropdownMenuItem<String>(
-              value: "method1",
-              child: Text("Credit Card"),
-            ),
-            DropdownMenuItem<String>(
-              value: "method2",
-              child: Text("PayPal"),
-            ),
-          ],
-          hint: Text(
+  Widget _buildNavItem(BuildContext context, IconData icon, String label,
+      bool isActive, Widget page) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: isActive ? Colors.amber : Colors.white),
+          const SizedBox(height: 4),
+          Text(
             label,
             style: TextStyle(
-              color: const Color(0xFFA09CAB),
-              fontSize: MediaQuery.of(context).size.width * 0.045,
+              color: isActive ? Colors.amber : Colors.white,
+              fontSize: 12,
             ),
           ),
-        ),
+        ],
       ),
     );
   }
