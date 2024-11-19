@@ -10,4 +10,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AunthenticationController::class, 'register']);
 Route::post('/login', [AunthenticationController::class, 'login']);
+Route::get('/users', [AunthenticationController::class, 'user']);
 

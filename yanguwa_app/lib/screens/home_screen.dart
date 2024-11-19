@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yanguwa_app/screens/service_provider_profile.dart';
+import 'package:yanguwa_app/screens/booking.dart';
+import 'package:yanguwa_app/screens/profile.dart';
+import 'package:yanguwa_app/screens/services.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -7,7 +9,17 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text("Yanguwa",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFF1A237E),
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -18,10 +30,10 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Yanguwa',
+                    'Welcome Back, Edwin',
                     style: TextStyle(
                       color: Color(0xFF1C1B1F),
-                      fontSize: 32,
+                      fontSize: 24,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -40,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                           child: TextField(
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Search for services (e.g., cleaning, childcare)',
+                              hintText: 'Search for services (e.g., cleaning, petcare)',
                               hintStyle: TextStyle(
                                 color: Color(0xFFA09CAB),
                                 fontSize: 16,
@@ -74,15 +86,14 @@ class HomeScreen extends StatelessWidget {
 
             // Horizontal slider for Featured Services
             SizedBox(
-              height: 180, // Reduced height for the slider
+              height: 140,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 children: [
-
                   _buildServiceCard('House Cleaning', 'Fast & Reliable', Icons.cleaning_services),
                   _buildServiceCard('Childcare', 'Safe & Trustworthy', Icons.child_care),
-                  _buildServiceCard('Errand Running', 'Quick Assistance', Icons.local_shipping),
+                  _buildServiceCard('Repair', 'Quick Assistance', Icons.local_shipping),
                   _buildServiceCard('Pet Care', 'Loving & Attentive', Icons.pets),
                 ],
               ),
@@ -96,7 +107,7 @@ class HomeScreen extends StatelessWidget {
               child: Text(
                 'Categories',
                 style: TextStyle(
-                  color: Color(0xFF1C1B1F),
+                  //color: Color
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
@@ -114,15 +125,6 @@ class HomeScreen extends StatelessWidget {
                 mainAxisSpacing: 8,
                 children: [
                   _buildCategoryCard('House Cleaning', Icons.cleaning_services),
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(builder: (context) => const ServiceProviderProfile()),
-                  //     );
-                  //   },
-                  //   child: _buildCategoryCard('House Cleaning', Icons.cleaning_services),
-                  // ),
                   _buildCategoryCard('Childcare', Icons.child_care),
                   _buildCategoryCard('Errand Running', Icons.local_shipping),
                   _buildCategoryCard('Pet Care', Icons.pets),
@@ -135,14 +137,14 @@ class HomeScreen extends StatelessWidget {
             // Bottom Navigation Bar
             Container(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              decoration: const BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(color: Color(0xFF1A237E)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _buildNavItem(Icons.home, 'Home', true),
-                  _buildNavItem(Icons.work, 'Services', false),
-                  _buildNavItem(Icons.book, 'Bookings', false),
-                  _buildNavItem(Icons.person, 'Profile', false),
+                  _buildNavItem(context, Icons.home, 'Home', true, HomeScreen()),
+                  _buildNavItem(context, Icons.work, 'Services', false, Services()),
+                  _buildNavItem(context, Icons.book, 'Bookings', false, BookingScreen()),
+                  _buildNavItem(context, Icons.person, 'Profile', false, ProfileScreen()),
                 ],
               ),
             ),
@@ -158,21 +160,21 @@ class HomeScreen extends StatelessWidget {
       width: 140, // Reduced width for horizontal scrolling items
       margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFFEFF1F5), // Updated color for featured services
-        borderRadius: BorderRadius.circular(16),
+        color: Colors.white, // Updated color for featured services
+        borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Icon(icon, size: 36, color: const Color(0xFFA09CAB)), // Reduced icon size for service
+            child: Icon(icon, size: 36, color: Colors.amberAccent), // Reduced icon size for service
           ),
           const SizedBox(height: 8),
           Text(
             title,
             style: const TextStyle(
-              color: Color(0xFF1C1B1F),
+              color: Color(0xFF1A237E),
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
@@ -192,46 +194,61 @@ class HomeScreen extends StatelessWidget {
 
   // Function to build a Category Card (used in the grid of categories)
   Widget _buildCategoryCard(String title, IconData icon) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFFEFF1F5), // Updated color for category cards
-        borderRadius: BorderRadius.circular(16),
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Icon(icon, size: 36, color: const Color(0xFFA09CAB)), // Reduced icon size for category
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.3),
+          spreadRadius: 0.5,
+          blurRadius: 1.5,
+          offset: Offset(0, 1),
+        ),
+      ],
+    ),
+    padding: const EdgeInsets.all(16),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Icon(icon, size: 36, color: Color(0xFF1A237E)),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          title,
+          style: const TextStyle(
+            color: Color(0xFFA09CAB),
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
           ),
-          const SizedBox(height: 8),
+        ),
+      ],
+    ),
+  );
+}
+
+  Widget _buildNavItem(BuildContext context, IconData icon, String label, bool isActive, Widget page) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
+      child: Column(
+        children: [
+          Icon(icon, color: isActive ? Colors.amber : Colors.white),
+          const SizedBox(height: 4),
           Text(
-            title,
-            style: const TextStyle(
-              color: Color(0xFF1C1B1F),
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
+            label,
+            style: TextStyle(
+              color: isActive ? Colors.amber : Colors.white,
+              fontSize: 12,
             ),
           ),
         ],
       ),
     );
   }
-
-// Function to build a navigation item
-Widget _buildNavItem(IconData icon, String label, bool isActive) {
-  return Column(
-    children: [
-      Icon(icon, color: isActive ? Color(0xFF1C1B1F) : Color(0xFFA09CAB)),
-      const SizedBox(height: 4),
-      Text(
-        label,
-        style: TextStyle(
-          color: isActive ? Color(0xFF1C1B1F) : Color(0xFFA09CAB),
-          fontSize: 12,
-        ),
-      ),
-    ],
-  );
-}
 }

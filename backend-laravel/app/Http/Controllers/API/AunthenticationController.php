@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\JsonResponse;
 
 class AunthenticationController extends Controller
 {
@@ -88,4 +89,10 @@ class AunthenticationController extends Controller
     //         'message'=> 'User logged out succesfully',
     //     ], 200);
     // }
+
+    public function user(): JsonResponse
+    {
+        $users = User::all();
+        return response()->json($users);
+    }
 }
