@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:yanguwa_app/screens/booking.dart';
+import 'package:yanguwa_app/screens/services.dart';
+
+import 'home_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -25,11 +29,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: Color(0xFFA09CAB),
-        title: const Text("Profile Page",
-          style: TextStyle(fontSize: 30,
-        ),),
-        leading: const Icon(Icons.person_2_rounded, color: Color(0xFFA09CAB),),
+        title: const Text(
+          "Profile",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: Colors.white
+        ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.keyboard_arrow_left,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: Color(0xFF1A237E),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -150,17 +166,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(
-          vertical: screenHeight * 0.015,
-        ),
-        decoration: const BoxDecoration(color: Colors.white),
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: const BoxDecoration(color: Color(0xFF1A237E)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildNavItem(Icons.home, 'Home', 0),
-            _buildNavItem(Icons.work, 'Services', 1),
-            _buildNavItem(Icons.book, 'Bookings', 2),
-            _buildNavItem(Icons.person, 'Profile', 3),
+            _buildNavItem(context, Icons.home, 'Home', false, HomeScreen()),
+            _buildNavItem(context, Icons.work, 'Services', false, Services()),
+            _buildNavItem(context, Icons.book, 'Bookings', false, BookingScreen()),
+            _buildNavItem(context, Icons.person, 'Profile', true, ProfileScreen()),
           ],
         ),
       ),
@@ -168,25 +182,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
 
-  Widget _buildNavItem(IconData icon, String label, int index) {
+  Widget _buildNavItem(BuildContext context, IconData icon, String label, bool isActive, Widget page) {
     return GestureDetector(
-      onTap: () => _onItemTapped(index),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            color: _selectedIndex == index
-                ? const Color(0xFF1C1B1F)
-                : const Color(0xFFA09CAB),
-          ),
+          Icon(icon, color: isActive ? Colors.amber : Colors.white),
           const SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
-              color: _selectedIndex == index
-                  ? const Color(0xFF1C1B1F)
-                  : const Color(0xFFA09CAB),
+              color: isActive ? Colors.amber : Colors.white,
               fontSize: 12,
             ),
           ),
@@ -194,5 +206,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
 }
