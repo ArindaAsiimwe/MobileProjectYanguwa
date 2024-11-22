@@ -1,17 +1,16 @@
-# MobileProjectYanguwa
+# yanguwa_app
 
-**NB:** After cloning the repository, run the following in the corresponding project directory:
+A new Flutter project.
 
-1. In the Flutter Application Directory:
-   ```bash
-   cd yanguwa_app
-   flutter pub get
+## Getting Started
 
-1. In the Laravel Application Directory:
-   ```bash
-   cd backend-laravel
-   cp .env.example .env
-1. Then setup your database, and then run
-   ```bash
-   composer install
+This project is a starting point for a Flutter application.
 
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
