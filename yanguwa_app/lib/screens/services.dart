@@ -33,60 +33,73 @@ class Services extends StatelessWidget {
         ),
         backgroundColor: const Color(0xFF1A237E),
       ),
-      body: FutureBuilder<List<Service>>(
-        future: fetchServices(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No services available'));
-          } else {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                final service = snapshot.data![index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 0.5,
-                          blurRadius: 1.5,
-                          offset: Offset(0, 1),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            FutureBuilder<List<Service>>(
+              future: fetchServices(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No services available'));
+                } else {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final service = snapshot.data![index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 0.5,
+                                blurRadius: 1.5,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ListTile(
+                            title: Text(
+                              service.title,
+                              style: const TextStyle(
+                                color: Color(0xFF1A237E),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            leading:
+                                const Icon(Icons.home, color: Colors.amber),
+                            subtitle: Text(service.description),
+                            onTap: () {
+                              // Navigate to service provider profile screen
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  //builder: (context) => const ServiceProviderProfile()
+                                  builder: (context) =>
+                                      ServiceProviderProfile(),
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                      ],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        service.title,
-                        style: const TextStyle(
-                          color: Color(0xFF1A237E),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      leading: Icon(Icons.home, color: Colors.amber), // Replace with actual icon
-                      subtitle: Text(service.description),
-                      onTap: () {
-                        // Navigate to service provider profile screen
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ServiceProviderProfile()),
-                        );
-                      },
-                    ),
-                  ),
-                );
+                      );
+                    },
+                  );
+                }
               },
-            );
-          }
-        },
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -94,12 +107,14 @@ class Services extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildNavItem(context, Icons.home, 'Home', false, HomeScreen()),
-            _buildNavItem(context, Icons.work, 'Services', true, Services()),
             _buildNavItem(
-                context, Icons.book, 'Bookings', false, BookingScreen()),
+                context, Icons.home, 'Home', false, const HomeScreen()),
             _buildNavItem(
-                context, Icons.person, 'Profile', false, ProfileScreen()),
+                context, Icons.work, 'Services', true, const Services()),
+            _buildNavItem(
+                context, Icons.book, 'Bookings', false, const BookingScreen()),
+            _buildNavItem(
+                context, Icons.person, 'Profile', false, const ProfileScreen()),
           ],
         ),
       ),

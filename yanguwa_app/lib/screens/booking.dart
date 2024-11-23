@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:yanguwa_app/authentication/model/service.dart';
 import 'package:yanguwa_app/screens/home_screen.dart';
 import 'package:yanguwa_app/screens/services.dart';
 import 'package:yanguwa_app/screens/profile.dart';
+import '../authentication/model/booking_model.dart';
+import '../authentication/service/api_service.dart';
+import '../stripe_payments/stripe_service.dart';
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({super.key});
@@ -12,6 +16,15 @@ class BookingScreen extends StatefulWidget {
 
 class _BookingScreenState extends State<BookingScreen> {
   String _selectedPaymentMethod = 'Credit Card';
+  // Future<Booking>? _Booking;
+
+  // Future<List<Service>>? _services;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _services = fetchServices();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +43,7 @@ class _BookingScreenState extends State<BookingScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
+              MaterialPageRoute(builder: (context) => Services()),
             );
           },
         ),
@@ -99,11 +112,32 @@ class _BookingScreenState extends State<BookingScreen> {
                 const SizedBox(height: 16),
                 Center(
                   child: SizedBox(
-                    width: double
-                        .infinity, // This will make the button take the full width of its parent
+                    width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // Add confirm action here
+                        await StripeService.instance.makePayment();
+
+                        // Booking booking = Booking(
+                        //   serviceId: 1,
+                        //   serviceProviderId: 1,
+                        //   bookingTime: "$startDate - $endDate",
+                        //   status: 'Pending',
+                        // );
+
+                        // try{
+                        //   // Perform payment
+                        //   //bool paymentSuccess = true;
+                        //   //await StripeService.instance.makePayment();
+                        // } catch (e) {
+                        //   // Handle exceptions
+                        //   print('Error during payment or booking: $e');
+                        //   ScaffoldMessenger.of(context).showSnackBar(
+                        //     SnackBar(
+                        //       content: Text('An error occurred: $e'),
+                        //     ),
+                        //   );
+                        // }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1A237E),

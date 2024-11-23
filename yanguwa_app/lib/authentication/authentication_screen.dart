@@ -16,7 +16,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   bool register = true;
 
-   final AuthenticationController authenticationController = Get.put(AuthenticationController());
+  final AuthenticationController authenticationController =
+      Get.put(AuthenticationController());
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +34,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                 children: [
                   const SizedBox(height: 50),
                   if (register == true)
-                  AuthenticationTextFormField(
-                    key: const Key('name'),
-                    icon: Icons.vpn_key,
-                    label: 'Full Name',
-                    textEditingController:
-                        authenticationController.nameController,
-                  ),
+                    AuthenticationTextFormField(
+                      key: const Key('name'),
+                      icon: Icons.vpn_key,
+                      label: 'Full Name',
+                      textEditingController:
+                          authenticationController.nameController,
+                    ),
                   AuthenticationTextFormField(
                     key: const Key('email'),
                     icon: Icons.email,
@@ -59,7 +60,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       key: const Key('password_confirmation'),
                       icon: Icons.password,
                       label: 'Password Confirmation',
-                      textEditingController:authenticationController.passwordConfirmationController,
+                      textEditingController: authenticationController
+                          .passwordConfirmationController,
                     ),
                   const SizedBox(
                     height: 25,
@@ -69,13 +71,16 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       minimumSize: const Size.fromHeight(50),
                       backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
-                      onPressed: () async {
-                        await _authenticate();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const HomeScreen()),
-                        );
-                      },
+                    onPressed: () async {
+                      await _authenticate();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeScreen()
+                            //     MaterialPageRoute(builder: (context) => const BottomNavBarScreen()
+                            ),
+                      );
+                    },
                     child: Text(
                       register == true ? 'Create Account' : 'Login',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -151,5 +156,4 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       ),
     );
   }
-
 }
