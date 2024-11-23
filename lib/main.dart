@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
-<<<<<<< HEAD:yanguwa_app/lib/main.dart
 import 'package:yanguwa_app/constants.dart';
 import 'authentication/authentication_screen.dart';
-=======
-import 'package:yanguwa_app/screens/booking.dart';
->>>>>>> 038dc0c464be13e46b5ff3dd1fa5f5bfcc013b1f:lib/main.dart
 
 void main() async {
   await _setup();
