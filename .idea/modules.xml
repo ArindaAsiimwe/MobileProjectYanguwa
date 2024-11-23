@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/MobileProjectYanguwa.iml" filepath="$PROJECT_DIR$/.idea/MobileProjectYanguwa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/yanguwa_app.iml" filepath="$PROJECT_DIR$/.idea/yanguwa_app.iml" />
     </modules>
   </component>
 </project>

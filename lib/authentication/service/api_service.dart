@@ -2,7 +2,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:yanguwa_app/authentication/model/service.dart';
+<<<<<<< HEAD:yanguwa_app/lib/authentication/service/api_service.dart
 import '../model/booking_model.dart';
+=======
+
+>>>>>>> 038dc0c464be13e46b5ff3dd1fa5f5bfcc013b1f:lib/authentication/service/api_service.dart
 
 Future<List<Service>> fetchServices() async {
   final response =
