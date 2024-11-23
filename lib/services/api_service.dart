@@ -1,8 +1,7 @@
 // lib/services/api_service.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:yanguwa_app/authentication/model/service.dart';
-
+import 'package:yanguwa_app/models/service.dart';
 
 Future<List<Service>> fetchServices() async {
   final response = await http.get(Uri.parse('https://yanguwa.edwincodes.tech/api/services'));

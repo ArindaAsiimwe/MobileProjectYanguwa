@@ -16,92 +16,86 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   bool register = true;
 
-   final AuthenticationController authenticationController = Get.put(AuthenticationController());
+  final AuthenticationController authenticationController = Get.put(AuthenticationController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        children: [
-          const Wave(),
-          Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Column(
-                children: [
-                  const SizedBox(height: 50),
-                  if (register == true)
-                  AuthenticationTextFormField(
-                    key: const Key('name'),
-                    icon: Icons.vpn_key,
-                    label: 'Full Name',
-                    textEditingController:
-                        authenticationController.nameController,
-                  ),
-                  AuthenticationTextFormField(
-                    key: const Key('email'),
-                    icon: Icons.email,
-                    label: 'Email',
-                    textEditingController:
-                        authenticationController.emailController,
-                  ),
-                  AuthenticationTextFormField(
-                    key: const Key('password'),
-                    icon: Icons.vpn_key,
-                    label: 'Password',
-                    textEditingController:
-                        authenticationController.passwordController,
-                  ),
-                  if (register == true)
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Wave(),
+            Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 50),
+                    if (register == true)
+                      AuthenticationTextFormField(
+                        key: const Key('name'),
+                        icon: Icons.vpn_key,
+                        label: 'Full Name',
+                        textEditingController: authenticationController.nameController,
+                      ),
                     AuthenticationTextFormField(
-                      key: const Key('password_confirmation'),
-                      icon: Icons.password,
-                      label: 'Password Confirmation',
-                      textEditingController:authenticationController.passwordConfirmationController,
+                      key: const Key('email'),
+                      icon: Icons.email,
+                      label: 'Email',
+                      textEditingController: authenticationController.emailController,
                     ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
-                      backgroundColor: Theme.of(context).colorScheme.primary,
+                    AuthenticationTextFormField(
+                      key: const Key('password'),
+                      icon: Icons.vpn_key,
+                      label: 'Password',
+                      textEditingController: authenticationController.passwordController,
                     ),
+                    if (register == true)
+                      AuthenticationTextFormField(
+                        key: const Key('password_confirmation'),
+                        icon: Icons.password,
+                        label: 'Password Confirmation',
+                        textEditingController: authenticationController.passwordConfirmationController,
+                      ),
+                    const SizedBox(height: 25),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                      ),
                       onPressed: () async {
                         await _authenticate();
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const HomeScreen()),
+                          MaterialPageRoute(builder: (context) => HomeScreen(userName: authenticationController.userName.value)),
                         );
                       },
-                    child: Text(
-                      register == true ? 'Create Account' : 'Login',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: Colors.white,
-                          ),
+                      child: Text(
+                        register == true ? 'Create Account' : 'Login',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: Colors.white,
+                            ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  InkWell(
-                    onTap: () {
-                      setState(() => register = !register);
-                      _formKey.currentState?.reset();
-                    },
-                    child: Text(
-                      register == true
-                          ? 'Already have an account? Login instead'
-                          : 'Create an account if you do not have one',
-                    ),
-                  )
-                ],
+                    const SizedBox(height: 20),
+                    InkWell(
+                      onTap: () {
+                        setState(() => register = !register);
+                        _formKey.currentState?.reset();
+                      },
+                      child: Text(
+                        register == true ? 'Already have an account? Login instead' : 'Create an account if you do not have one',
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   Future<void> _authenticate() async {
@@ -109,8 +103,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
 
     // If registering, validate password confirmation
     if (register) {
-      if (authenticationController.passwordController.text !=
-          authenticationController.passwordConfirmationController.text) {
+      if (authenticationController.passwordController.text != authenticationController.passwordConfirmationController.text) {
         // Show error if passwords do not match
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -151,5 +144,4 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       ),
     );
   }
-
 }
