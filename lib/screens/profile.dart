@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:yanguwa_app/screens/booking.dart';
+import 'package:yanguwa_app/screens/bookings.dart';
 import 'package:yanguwa_app/screens/services.dart';
-
+import 'package:get/get.dart';
+import 'package:yanguwa_app/authentication/controller/auth_controller.dart';
 import 'home_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -24,6 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthenticationController authenticationController = Get.find();
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -42,7 +44,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen(userName: authenticationController.userName.value)),
+            );
           },
         ),
         backgroundColor: Color(0xFF1A237E),
@@ -171,16 +176,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildNavItem(context, Icons.home, 'Home', false, HomeScreen()),
+            _buildNavItem(context, Icons.home, 'Home', false, HomeScreen(userName: authenticationController.userName.value)),
             _buildNavItem(context, Icons.work, 'Services', false, Services()),
-            _buildNavItem(context, Icons.book, 'Bookings', false, BookingScreen()),
+            _buildNavItem(context, Icons.book, 'Bookings', false, BookingsScreen()),
             _buildNavItem(context, Icons.person, 'Profile', true, ProfileScreen()),
           ],
         ),
       ),
     );
   }
-
 
   Widget _buildNavItem(BuildContext context, IconData icon, String label, bool isActive, Widget page) {
     return GestureDetector(

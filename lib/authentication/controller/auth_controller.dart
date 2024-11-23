@@ -1,13 +1,12 @@
 import 'package:yanguwa_app/authentication/service/auth_service.dart';
-// import 'package:yanguwa_app/home_view.dart';
 import 'package:yanguwa_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AuthenticationController extends GetxController {
   final AuthenticationService authenticationService = AuthenticationService();
-
   final RxBool isLoading = false.obs;
+  final RxString userName = ''.obs; // Add this line
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -21,11 +20,12 @@ class AuthenticationController extends GetxController {
   }) async {
     isLoading.value = true;
     try {
-      await authenticationService.register(
+      final userModel = await authenticationService.register(
         name: name,
         email: email,
         password: password,
       );
+      userName.value = userModel.user.name; // Store the user's name
       Get.snackbar(
         'Success',
         'User registered successfully',
@@ -34,7 +34,7 @@ class AuthenticationController extends GetxController {
         colorText: Colors.white,
       );
 
-      Get.offAll(() => const HomeScreen());
+      Get.offAll(() => HomeScreen(userName: userName.value)); // Pass the user's name
     } catch (e) {
       print(e.toString());
     } finally {
@@ -48,13 +48,12 @@ class AuthenticationController extends GetxController {
   }) async {
     try {
       isLoading.value = true;
-
-      await authenticationService.login(
+      final userModel = await authenticationService.login(
         email: email,
         password: password,
       );
-
-      Get.offAll(() => const HomeScreen());
+      userName.value = userModel.user.name; // Store the user's name
+      Get.offAll(() => HomeScreen(userName: userName.value)); // Pass the user's name
     } catch (e) {
       print(e.toString());
     } finally {

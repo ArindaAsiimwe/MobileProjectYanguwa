@@ -1,24 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:yanguwa_app/screens/home_screen.dart';
 import 'package:yanguwa_app/screens/services.dart';
 import 'package:yanguwa_app/screens/profile.dart';
+import 'package:yanguwa_app/screens/bookings.dart';
+import 'package:get/get.dart';
+import 'package:yanguwa_app/authentication/controller/auth_controller.dart';
 
 class BookingScreen extends StatefulWidget {
-  const BookingScreen({super.key});
+  final String serviceName;
+  final String providerName;
+  final String providerRate;
+  final int serviceId;
+  final int serviceProviderId;
+
+  const BookingScreen({
+    super.key,
+    required this.serviceName,
+    required this.providerName,
+    required this.providerRate,
+    required this.serviceId,
+    required this.serviceProviderId,
+  });
 
   @override
   _BookingScreenState createState() => _BookingScreenState();
 }
 
 class _BookingScreenState extends State<BookingScreen> {
-  String _selectedPaymentMethod = 'Credit Card';
+  String _selectedPaymentMethod = 'Cash';
+  DateTime _selectedDateTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+    final AuthenticationController authenticationController = Get.find();
+    final double providerRate = double.tryParse(widget.providerRate) ?? 0.0;
+    final double taxes = 0.1 * providerRate;
+    final double totalCost = providerRate + taxes;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Booking",
+          "Booking Info",
           style: TextStyle(
             fontSize: 24,
             color: Colors.white,
@@ -30,7 +54,7 @@ class _BookingScreenState extends State<BookingScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
+              MaterialPageRoute(builder: (context) => HomeScreen(userName: authenticationController.userName.value)),
             );
           },
         ),
@@ -52,9 +76,9 @@ class _BookingScreenState extends State<BookingScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                _buildInfoRow("Service Provider:", "Provider Name"),
-                _buildInfoRow("Category:", "House Cleaning"),
-                _buildInfoRow("Date & Time:", "March 15, 3:00 PM"),
+                _buildInfoRow("Service Provider:", widget.providerName),
+                _buildInfoRow("Service:", widget.serviceName),
+                _buildInfoRow("Rate:", widget.providerRate),
                 const SizedBox(height: 16),
                 const Text(
                   "Select Date & Time",
@@ -65,12 +89,9 @@ class _BookingScreenState extends State<BookingScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildDateTimePicker(context, "Start: Tue, Oct 24"),
-                    _buildDateTimePicker(context, "End: Wed, Oct 25"),
-                  ],
+                GestureDetector(
+                  onTap: () => _selectDateTime(context),
+                  child: _buildInfoRow("Date & Time:", "${_selectedDateTime.toLocal()}".split('.')[0]),
                 ),
                 const SizedBox(height: 16),
                 const Text(
@@ -93,17 +114,57 @@ class _BookingScreenState extends State<BookingScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                _buildInfoRow("Service Cost:", "\$30"),
-                _buildInfoRow("Taxes:", "\$5"),
-                _buildInfoRow("Total:", "\$35"),
+                _buildInfoRow("Service Cost:", providerRate.toString()),
+                _buildInfoRow("Taxes:", taxes.toString()),
+                _buildInfoRow("Total:", totalCost.toString()),
                 const SizedBox(height: 16),
                 Center(
                   child: SizedBox(
-                    width: double
-                        .infinity, // This will make the button take the full width of its parent
+                    width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Add confirm action here
+                      onPressed: () async {
+                        final bookingData = {
+                          'user_id': 7, // Replace with actual user ID
+                          'service_id': widget.serviceId,
+                          'service_provider_id': widget.serviceProviderId,
+                          'booking_time': _selectedDateTime.toIso8601String(),
+                          'status': 'pending',
+                        };
+
+                        final response = await http.post(
+                          Uri.parse('https://yanguwa.edwincodes.tech/api/bookings'),
+                          headers: {'Content-Type': 'application/json'},
+                          body: json.encode(bookingData),
+                        );
+
+                        if (response.statusCode == 201) {
+                          final responseData = json.decode(response.body);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Booking created successfully'),
+                              backgroundColor: Colors.green,
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => BookingsScreen()),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Failed to create booking'),
+                              backgroundColor: Colors.red,
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1A237E),
@@ -135,16 +196,43 @@ class _BookingScreenState extends State<BookingScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildNavItem(context, Icons.home, 'Home', false, HomeScreen()),
+            _buildNavItem(context, Icons.home, 'Home', false, HomeScreen(userName: authenticationController.userName.value)),
             _buildNavItem(context, Icons.work, 'Services', false, Services()),
             _buildNavItem(
-                context, Icons.book, 'Bookings', true, BookingScreen()),
+                context, Icons.book, 'Bookings', false, BookingsScreen()),
             _buildNavItem(
                 context, Icons.person, 'Profile', false, ProfileScreen()),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _selectDateTime(BuildContext context) async {
+    final DateTime now = DateTime.now();
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _selectedDateTime,
+      firstDate: now,
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
+      );
+      if (pickedTime != null) {
+        setState(() {
+          _selectedDateTime = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+        });
+      }
+    }
   }
 
   Widget _buildDropdown(BuildContext context) {
@@ -155,7 +243,7 @@ class _BookingScreenState extends State<BookingScreen> {
           _selectedPaymentMethod = newValue!;
         });
       },
-      items: <String>['Credit Card', 'Mobile Money']
+      items: <String>['Cash', 'Credit/Debit Card', 'Mobile Money']
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
@@ -206,11 +294,6 @@ class _BookingScreenState extends State<BookingScreen> {
         ],
       ),
     );
-  }
-
-  Widget _buildDateTimePicker(BuildContext context, String label) {
-    // Implement your date time picker here
-    return Text(label);
   }
 
   Widget _buildNavItem(BuildContext context, IconData icon, String label,

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:yanguwa_app/screens/booking.dart';
+import 'package:yanguwa_app/screens/bookings.dart';
 import 'package:yanguwa_app/screens/profile.dart';
 import 'package:yanguwa_app/screens/services.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final String userName;
+
+  const HomeScreen({super.key, required this.userName});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Yanguwa",
+        title: Text(
+          "Yanguwa",
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -29,8 +32,8 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Welcome Back, Edwin',
+                  Text(
+                    'Welcome Back, $userName',
                     style: TextStyle(
                       color: Color(0xFF1C1B1F),
                       fontSize: 24,
@@ -141,9 +144,9 @@ class HomeScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _buildNavItem(context, Icons.home, 'Home', true, HomeScreen()),
+                  _buildNavItem(context, Icons.home, 'Home', true, HomeScreen(userName: userName)),
                   _buildNavItem(context, Icons.work, 'Services', false, Services()),
-                  _buildNavItem(context, Icons.book, 'Bookings', false, BookingScreen()),
+                  _buildNavItem(context, Icons.book, 'Bookings', false, BookingsScreen()),
                   _buildNavItem(context, Icons.person, 'Profile', false, ProfileScreen()),
                 ],
               ),
@@ -194,39 +197,39 @@ class HomeScreen extends StatelessWidget {
 
   // Function to build a Category Card (used in the grid of categories)
   Widget _buildCategoryCard(String title, IconData icon) {
-  return Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.3),
-          spreadRadius: 0.5,
-          blurRadius: 1.5,
-          offset: Offset(0, 1),
-        ),
-      ],
-    ),
-    padding: const EdgeInsets.all(16),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Icon(icon, size: 36, color: Color(0xFF1A237E)),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          title,
-          style: const TextStyle(
-            color: Color(0xFFA09CAB),
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 0.5,
+            blurRadius: 1.5,
+            offset: Offset(0, 1),
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Icon(icon, size: 36, color: Color(0xFF1A237E)),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            title,
+            style: const TextStyle(
+              color: Color(0xFFA09CAB),
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildNavItem(BuildContext context, IconData icon, String label, bool isActive, Widget page) {
     return GestureDetector(

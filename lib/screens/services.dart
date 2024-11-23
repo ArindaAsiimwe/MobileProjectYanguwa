@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:yanguwa_app/screens/booking.dart';
+import 'package:yanguwa_app/screens/bookings.dart';
 import 'package:yanguwa_app/screens/profile.dart';
 import 'package:yanguwa_app/screens/home_screen.dart';
-import 'package:yanguwa_app/screens/service_provider_profile.dart';
-import 'package:yanguwa_app/authentication/service/api_service.dart';
-
-import '../authentication/model/service.dart';
+import 'package:yanguwa_app/services/api_service.dart';
+import '../models/service.dart';
+import 'package:yanguwa_app/screens/service_detail.dart';
+import 'package:get/get.dart';
+import 'package:yanguwa_app/authentication/controller/auth_controller.dart';
 
 class Services extends StatelessWidget {
   const Services({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final AuthenticationController authenticationController = Get.find();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -48,7 +51,8 @@ class Services extends StatelessWidget {
               itemBuilder: (context, index) {
                 final service = snapshot.data![index];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -70,14 +74,18 @@ class Services extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      leading: Icon(Icons.home, color: Colors.amber), // Replace with actual icon
+                      leading: Icon(Icons.work,
+                          color: Colors.amber), // Replace with actual icon
                       subtitle: Text(service.description),
+                      trailing: Icon(Icons.keyboard_arrow_right,
+                          color: Colors.grey), // Add trailing icon
                       onTap: () {
                         // Navigate to service provider profile screen
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ServiceProviderProfile()),
+                              builder: (context) =>
+                                  ServiceDetailScreen(serviceId: service.id)),
                         );
                       },
                     ),
@@ -94,10 +102,10 @@ class Services extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildNavItem(context, Icons.home, 'Home', false, HomeScreen()),
+            _buildNavItem(context, Icons.home, 'Home', false, HomeScreen(userName: authenticationController.userName.value)),
             _buildNavItem(context, Icons.work, 'Services', true, Services()),
             _buildNavItem(
-                context, Icons.book, 'Bookings', false, BookingScreen()),
+                context, Icons.book, 'Bookings', false, BookingsScreen()),
             _buildNavItem(
                 context, Icons.person, 'Profile', false, ProfileScreen()),
           ],
