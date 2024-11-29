@@ -134,54 +134,54 @@ class _BookingScreenState extends State<BookingScreen> {
                         onPressed: _paymentSuccess
                             ? null
                             : () async {
-                                int amountInSmallestUnit = (totalCost).toInt();
-                                try {
-                                  bool paymentSuccessful = await StripeService
-                                      .instance
-                                      .makePayment(amountInSmallestUnit);
+                          int amountInSmallestUnit = (totalCost).toInt();
+                          try {
+                            bool paymentSuccessful = await StripeService
+                                .instance
+                                .makePayment(amountInSmallestUnit);
 
-                                  if (!paymentSuccessful) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: const Text(
-                                            'Payment failed. Please try again.'),
-                                        backgroundColor: Colors.red,
-                                        behavior: SnackBarBehavior.floating,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                    );
-                                    return; // Exit if payment fails
-                                  }
-                                  setState(() {
-                                    _paymentSuccess = true;
-                                  });
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: const Text(
-                                          'Payment successful. You can confirm your booking now!'),
-                                      backgroundColor: Colors.green,
-                                      behavior: SnackBarBehavior.floating,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  );
-                                } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('An error occurred: $e'),
-                                      backgroundColor: Colors.red,
-                                      behavior: SnackBarBehavior.floating,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
+                            if (!paymentSuccessful) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                      'Payment failed. Please try again.'),
+                                  backgroundColor: Colors.red,
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                  ),
+                                ),
+                              );
+                              return; // Exit if payment fails
+                            }
+                            setState(() {
+                              _paymentSuccess = true;
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text(
+                                    'Payment successful. You can confirm your booking now!'),
+                                backgroundColor: Colors.green,
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            );
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('An error occurred: $e'),
+                                backgroundColor: Colors.red,
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            );
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF1A237E),
                           padding: const EdgeInsets.symmetric(
@@ -208,55 +208,55 @@ class _BookingScreenState extends State<BookingScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: (_selectedPaymentMethod == 'Cash' ||
-                              _selectedPaymentMethod == 'Credit/Debit Card')
+                          (_selectedPaymentMethod == 'Credit/Debit Card' && _paymentSuccess))
                           ? () async {
-                              final bookingData = {
-                                'user_id': 7, // Replace with actual user ID
-                                'service_id': widget.serviceId,
-                                'service_provider_id': widget.serviceProviderId,
-                                'booking_time':
-                                    _selectedDateTime.toIso8601String(),
-                                'status': 'pending',
-                              };
+                        final bookingData = {
+                          'user_id': 7, // Replace with actual user ID
+                          'service_id': widget.serviceId,
+                          'service_provider_id': widget.serviceProviderId,
+                          'booking_time':
+                          _selectedDateTime.toIso8601String(),
+                          'status': 'pending',
+                        };
 
-                              final response = await http.post(
-                                Uri.parse(
-                                    'https://yanguwa.edwincodes.tech/api/bookings'),
-                                headers: {'Content-Type': 'application/json'},
-                                body: json.encode(bookingData),
-                              );
+                        final response = await http.post(
+                          Uri.parse(
+                              'https://yanguwa.edwincodes.tech/api/bookings'),
+                          headers: {'Content-Type': 'application/json'},
+                          body: json.encode(bookingData),
+                        );
 
-                              if (response.statusCode == 201) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: const Text(
-                                        'Booking created successfully'),
-                                    backgroundColor: Colors.green,
-                                    behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                );
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BookingsScreen()),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content:
-                                        const Text('Failed to create booking'),
-                                    backgroundColor: Colors.red,
-                                    behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                );
-                              }
-                            }
+                        if (response.statusCode == 201) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Text(
+                                  'Booking created successfully'),
+                              backgroundColor: Colors.green,
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BookingsScreen()),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content:
+                              const Text('Failed to create booking'),
+                              backgroundColor: Colors.red,
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          );
+                        }
+                      }
                           : null, // Disable if payment is not successful
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1A237E),
@@ -389,7 +389,7 @@ class _BookingScreenState extends State<BookingScreen> {
       }).toList(),
       decoration: InputDecoration(
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         filled: true,
         fillColor: const Color(0xFFEFF1F5),
         border: OutlineInputBorder(

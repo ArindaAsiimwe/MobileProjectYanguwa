@@ -82,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SizedBox(height: screenHeight * 0.01),
               Text(
-                "useremail@example.com",
+                "demouser@mailinator.com",
                 style: TextStyle(
                   fontSize: screenWidth * 0.045,  // Adjusted font size for email
                   color: Colors.grey,
@@ -101,14 +101,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(height: screenHeight * 0.02),
               // Upcoming Booking
               Text(
-                "Upcoming Booking with Provider A",
+                "Upcoming Booking with Arinda",
                 style: TextStyle(
                   fontSize: screenWidth * 0.045,  // Adjusted font size
                 ),
               ),
               SizedBox(height: screenHeight * 0.005),
               Text(
-                "March 15, 3:00 PM",
+                "Nov 25, 3:00 PM",
                 style: TextStyle(
                   fontSize: screenWidth * 0.04,  // Smaller font for date/time
                   color: Colors.grey,
@@ -117,14 +117,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(height: screenHeight * 0.03),
               // Past Booking
               Text(
-                "Past Booking with Provider B",
+                "Past Booking with La Mensa",
                 style: TextStyle(
                   fontSize: screenWidth * 0.045,  // Adjusted font size
                 ),
               ),
               SizedBox(height: screenHeight * 0.005),
               Text(
-                "February 10, 11:00 AM",
+                "Nov 23, 11:00 AM",
                 style: TextStyle(
                   fontSize: screenWidth * 0.04,  // Smaller font for date/time
                   color: Colors.grey,
@@ -143,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(height: screenHeight * 0.02),
               // Existing Card
               Text(
-                "Visa **** **** **** 1234",
+                "Visa **** **** **** 4242",
                 style: TextStyle(
                   fontSize: screenWidth * 0.045,  // Adjusted font size
                 ),

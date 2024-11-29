@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:yanguwa_app/authentication/authentication_screen.dart';
+
 import 'stripe_payments/constants.dart';
 
 void main() async {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
             .copyWith(error: Colors.redAccent),
         useMaterial3: true,
       ),
-      home: const AuthenticationScreen(),
+      home: AuthenticationScreen(),
     );
   }
 }
