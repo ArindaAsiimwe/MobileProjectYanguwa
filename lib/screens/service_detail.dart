@@ -45,21 +45,21 @@ class ServiceDetailScreen extends StatelessWidget {
         ),
         backgroundColor: const Color(0xFF1A237E),
       ),
-      body: FutureBuilder<Map<String, dynamic>>(
-        future: fetchServiceDetail(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData) {
-            return const Center(child: Text('No service detail available'));
-          } else {
-            final service = snapshot.data!;
-            final serviceProviders =
-                service['service_providers'] as List<dynamic>;
-            return SingleChildScrollView(
-              child: Padding(
+      body: SingleChildScrollView(
+        child: FutureBuilder<Map<String, dynamic>>(
+          future: fetchServiceDetail(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (!snapshot.hasData) {
+              return const Center(child: Text('No service detail available'));
+            } else {
+              final service = snapshot.data!;
+              final serviceProviders =
+                  service['service_providers'] as List<dynamic>;
+              return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,7 +140,8 @@ class ServiceDetailScreen extends StatelessWidget {
                                     builder: (context) => BookingScreen(
                                       serviceName: service['name'],
                                       providerName: provider['name'],
-                                      providerRate: provider['price'].toString(),
+                                      providerRate:
+                                          provider['price'].toString(),
                                       serviceId: serviceId,
                                       serviceProviderId: provider['id'],
                                     ),
@@ -161,10 +162,10 @@ class ServiceDetailScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-            );
-          }
-        },
+              );
+            }
+          },
+        ),
       ),
     );
   }
